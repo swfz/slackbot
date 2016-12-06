@@ -2,8 +2,8 @@ const Botkit = require('botkit');
 const Fs = require('fs');
 const Path = require('path');
 
-if (!process.env.token) {
-  console.log('Error: Specify token in environment');
+if (!process.env.SLACK_TOKEN) {
+  console.log('Error: Specify SLACK_TOKEN in environment');
   process.exit(1);
 }
 
@@ -13,7 +13,7 @@ controller = Botkit.slackbot({
 });
 
 controller.spawn({
-    token: process.env.token
+    token: process.env.SLACK_TOKEN
 }).startRTM(function(err){
     if (err) {
         throw new Error(err);

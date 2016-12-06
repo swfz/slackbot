@@ -1,0 +1,12 @@
+version: '2'
+services:
+  botkit:
+    container_name: botkit
+    build:
+      context: ./
+    volumes:
+      - ./:/botkit
+    environment:
+      - SLACK_TOKEN=${TOKEN}
+
+
