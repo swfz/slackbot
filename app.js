@@ -67,7 +67,8 @@ const load = (path, file) => {
 
 const path = Path.resolve('.', 'scripts')
 
-Fs.readdirSync(path).sort().forEach((file) =>{
+loadFiles = Fs.readdirSync(path).filter((file)=>{return !file.match(/\..*.swp/)})
+loadFiles.sort().forEach((file) =>{
   load(path, file);
 });
 

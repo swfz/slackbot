@@ -13,8 +13,16 @@ controller.hears('usermod (.*) (.*)',['direct_message','direct_mention','mention
         bot.reply(message,'Error! Not Enough Params. try `usermod ${user_id} ${role}`');
       }
 
-      controller.storage.users.save({id: userId, name: data.name, role: role }, (err)=>{controller.log(err)});
-      bot.reply(message,`modified. ${data.name} is ${role}. user_id: ${data.id}`);
+      controller.storage.users.get(userId, (err,target) => {
+        if (err) {
+          controller.log(err)
+          bot.reply(message,'Error! Undefined User. Please Input UserId. "usermod U0XXXXXXX role"');
+        }
+        else {
+          controller.storage.users.save({id: userId, name: target.name, role: role }, (err)=>{controller.log(err)});
+          bot.reply(message,`modified. ${target.name} is ${role}. user_id: ${data.id}`);
+        }
+      })
     }
   });
 });
