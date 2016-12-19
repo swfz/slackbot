@@ -1,0 +1,23 @@
+- name: install epel
+  yum: name=epel-release state=installed
+
+- name: install node
+  yum: name={{ item }} state=installed
+  with_items:
+    - node
+    - npm
+
+- name: clone botkit
+  git:
+    repo: https://github.com/swfz/slackbot.git
+    dest: /var/www/slackbot
+    clone: yes
+
+- name: setup botkit
+  template:
+    src: botkit.ini
+    dest: /etc/supervisor.d/botkit.ini
+
+- name: notify supervisor3
+  notify: restart supervisor3
+
