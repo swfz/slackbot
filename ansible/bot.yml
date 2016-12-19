@@ -1,0 +1,7 @@
+---
+- hosts: local
+  become: yes
+  roles:
+    - { role: botkit,      tags: botkit }
+    - { role: supervisor3, tags: supervisor3 }
+
