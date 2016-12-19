@@ -1,10 +1,13 @@
 - name: install epel
-  yum: name=epel-release state=installed
-
-- name: install node
   yum: name={{ item }} state=installed
   with_items:
-    - node
+    - epel-release
+    - git
+
+- name: install node
+  yum: name={{ item }} state=installed enablerepo=epel
+  with_items:
+    - nodejs
     - npm
 
 - name: clone botkit
@@ -13,11 +16,20 @@
     dest: /var/www/slackbot
     clone: yes
 
+- name: install node modules
+  npm:
+    name: botkit
+    path: /var/www/slackbot
+
+- name: create storage directory
+  file:
+    path: "/var/www/slackbot/storage"
+    state: directory
+    mode: 0777
+
 - name: setup botkit
   template:
     src: botkit.ini
     dest: /etc/supervisor.d/botkit.ini
-
-- name: notify supervisor3
-  notify: restart supervisor3
+  notify: restart supervisord
 
