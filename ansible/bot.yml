@@ -3,7 +3,6 @@
   become: yes
   vars:
     username: vagrant
-    botkit_token: xxx
   roles:
     - { role: supervisor3, tags: supervisor3 }
     - { role: botkit,      tags: botkit }
