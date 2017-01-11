@@ -27,6 +27,29 @@ controller.setupWebserver(port, (err,webserver) => {
     controller.log("ping...");
     res.send('pong!');
   });
+
+  // load module in webhooks/*
+  const load = (path, file) => {
+    const ext  = Path.extname(file);
+    const full = Path.join(path, Path.basename(file, ext));
+
+    try {
+      const script = require(full)(webserver);
+      if (typeof script === 'function') {
+        script(webserver)
+      }
+    } catch(error) {
+      console.log(error);
+      process.exit(1);
+    }
+  };
+
+  const path = Path.resolve('.', 'webhooks')
+
+  loadFiles = Fs.readdirSync(path).filter((file)=>{return !file.match(/\..*.swp/)})
+  loadFiles.sort().forEach((file) =>{
+    load(path, file);
+  });
   controller.createWebhookEndpoints(webserver);
 });
 
