@@ -21,6 +21,7 @@ controller.spawn({
 });
 
 //server start
+const Exec = require('child_process').exec;
 const port = process.env.botkit_port || '3300'
 controller.setupWebserver(port, (err,webserver) => {
   webserver.get('/ping',(req,res) => {
@@ -50,6 +51,7 @@ controller.setupWebserver(port, (err,webserver) => {
   loadFiles.sort().forEach((file) =>{
     load(path, file);
   });
+
   controller.createWebhookEndpoints(webserver);
 });
 

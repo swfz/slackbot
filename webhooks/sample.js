@@ -6,10 +6,10 @@ module.exports = (webserver) => {
       controller.log(`'ls -al' \n STDERR: ${err} \n STDOUT: ${stdout}`);
 
       if ( err ) {
-        res.send(err);
+        res.status(500).send(err);
       }
       else {
-        res.send(stdout);
+        res.status(200).send(stdout);
       }
     });
   });
